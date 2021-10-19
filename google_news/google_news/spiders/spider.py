@@ -50,15 +50,21 @@ class Spider(scrapy.Spider):
                 break
 
     def parse(self, response, link, published, title, crime_keyword):
+        # parse only responses with status code 200
         if response.status == 200:
             try:
+                # retrieve body tag with data
                 body_tag = response.css('body').get()
 
+                # initialize keywords list for article link
                 if link not in self.article_links:
                     self.article_links[link] = []
 
+                # add article keyword to list of keywords
                 self.article_links[link].append(crime_keyword)
 
+                # writes data in json, but also in cmd
+                # TODO: have to remove writing to cmd
                 yield {
                     "title": title,
                     "published": published,
@@ -66,6 +72,7 @@ class Spider(scrapy.Spider):
                     "html": body_tag
                 }
             except:
+                # if page doesn't contains body tag, program will execute this line of code
                 pass
 
 # run Spider
