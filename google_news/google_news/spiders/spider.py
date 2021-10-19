@@ -8,6 +8,8 @@ from gnewsparser import GnewsParser
 class Spider(scrapy.Spider):
     name = "spider"
 
+    # TODO: write article links with keywords to json, when last request ends
+    # NOTE: find out how can program detects, that last request ends
     article_links = {} # storing article links, with crime keywords
 
     crime_keywords = ['murder']
@@ -46,8 +48,6 @@ class Spider(scrapy.Spider):
                             crime_keyword=crime_keyword
                         )
                     )
-
-                break
 
     def parse(self, response, link, published, title, crime_keyword):
         # parse only responses with status code 200
