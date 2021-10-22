@@ -4,5 +4,5 @@
 /google_news/*.jl
 google_news/google_news/__pycache__
 .idea
-*.jl
+/google_news/*.json
 *.pyc
