@@ -12,6 +12,7 @@ BOT_NAME = 'google_news'
 SPIDER_MODULES = ['google_news.spiders']
 NEWSPIDER_MODULE = 'google_news.spiders'
 
+LOG_LEVEL = 'DEBUG'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'google_news (+http://www.yourdomain.com)'
