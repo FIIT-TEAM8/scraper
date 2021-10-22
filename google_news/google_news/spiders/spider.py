@@ -47,8 +47,6 @@ class Spider(scrapy.Spider):
                         )
                     )
 
-                    break
-
                 break
 
     def parse(self, response, link, published, title, crime_keyword):
@@ -72,7 +70,6 @@ class Spider(scrapy.Spider):
                     "link": link,
                     "html": body_tag
                 }
-                print(os.getcwd() + ' CICINA')
             except Exception:
                 # if page doesn't contains body tag, program will execute this line of code
                 pass
