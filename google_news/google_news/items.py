@@ -8,5 +8,10 @@ import scrapy
 
 class GoogleNewsItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    published = scrapy.Field()
+    link = scrapy.Field()
+    html = scrapy.Field()
+                    
+    def __str__(self):
+        return "----------------------------------------SCRAPED RIGHT----------------------------------------"

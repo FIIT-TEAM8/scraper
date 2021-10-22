@@ -2,14 +2,13 @@ import scrapy
 # probably a bad import practice? if something breaks uncomment this and comment the other import of GnewsParser :)
 # from google_news.spiders.gnewsparser import GnewsParser
 from ..spiders.gnewsparser import GnewsParser
-
+from google_news.items import GoogleNewsItem
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
 
 # TODO: 1. citat zlociny jeden po druhom zo suboru moricovho
 # TODO: 2. zapis vsetkych zlocinov s keywords a linkami na disk
-# TODO: 3. umoznit iba scrapy logs a nie udaje o articles
 
 class Spider(scrapy.Spider):
     name = "spider"
@@ -48,9 +47,13 @@ class Spider(scrapy.Spider):
                                             )
                                          )
 
+                    break
+
                 break
 
     def parse(self, response, link, published, title, crime_keyword):
+        item = GoogleNewsItem() # this item will be writin in output file, when it is yield
+
         # parse only responses with status code 200
         if response.status == 200:
             try:
@@ -64,13 +67,14 @@ class Spider(scrapy.Spider):
                 # add article keyword to list of keywords
                 self.article_links[link].append(crime_keyword)
 
-                # writes data in json, but also in cmd
-                yield {
-                    "title": title,
-                    "published": published,
-                    "link": link,
-                    "html": body_tag
-                }
+                # writes data into item, which will be yield into output file
+                item['title'] = title,
+                item['published'] = published,
+                item['link'] = link,
+                item['html'] = body_tag
+
+                yield item
+
             except Exception:
                 # if page doesn't contains body tag, program will execute this line of code
                 pass
