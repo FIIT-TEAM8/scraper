@@ -47,7 +47,7 @@ class Spider(scrapy.Spider):
                                              published=published,
                                              title=title,
                                              crime_keyword=crime_keyword
-                                         )
+                                            )
                                          )
 
                     break
