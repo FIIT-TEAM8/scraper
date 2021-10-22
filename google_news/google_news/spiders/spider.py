@@ -1,9 +1,10 @@
-import os
-import time
 from os.path import dirname
+
 import scrapy
+# probably a bad import practice? if something breaks uncomment this and comment the other import of GnewsParser :)
+# from google_news.spiders.gnewsparser import GnewsParser
+from ..spiders.gnewsparser import GnewsParser
 from google_news.items import GoogleNewsItem
-from google_news.spiders.gnewsparser import GnewsParser
 
 CRIME_KEYWORD_FILE = '\list_of_crimes.txt'
 
@@ -28,7 +29,7 @@ def load_crime_keywords():
 class Spider(scrapy.Spider):
     name = "spider"
 
-    article_links = {} # storing article links, with crime keywords
+    article_links = {}  # storing article links, with crime keywords
 
     crime_keywords = load_crime_keywords()
 
@@ -40,7 +41,7 @@ class Spider(scrapy.Spider):
             gnews_parser.setup_search(crime_keyword, '2020-12-01', '2020-12-31')
 
             while True:
-                res = gnews_parser.get_results() # getting articles on daily basis
+                res = gnews_parser.get_results()  # getting articles on daily basis
 
                 if res is None:
                     break
@@ -53,14 +54,14 @@ class Spider(scrapy.Spider):
 
                     # make get request on article link
                     yield scrapy.Request(link,
-                        callback=self.parse,
-                        cb_kwargs=dict(
-                            link=link,
-                            published=published, 
-                            title=title,
-                            crime_keyword=crime_keyword
-                        )
-                    )
+                                         callback=self.parse,
+                                         cb_kwargs=dict(
+                                             link=link,
+                                             published=published,
+                                             title=title,
+                                             crime_keyword=crime_keyword
+                                            )
+                                         )
 
                     break
 
