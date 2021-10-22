@@ -4,14 +4,16 @@ import scrapy
 # probably a bad import practice? if something breaks uncomment this and comment the other import of GnewsParser :)
 # from google_news.spiders.gnewsparser import GnewsParser
 from ..spiders.gnewsparser import GnewsParser
-from google_news.items import GoogleNewsItem
+
+# same stuff as import above
+# from google_news.items import GoogleNewsItem
+from ..items import GoogleNewsItem
+
 
 CRIME_KEYWORD_FILE = '\list_of_crimes.txt'
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
-
-# TODO: 2. zapis vsetkych zlocinov s keywords a linkami na disk
 
 
 # open crime keywords file and load them into list
@@ -60,7 +62,7 @@ class Spider(scrapy.Spider):
                                              published=published,
                                              title=title,
                                              crime_keyword=crime_keyword
-                                            )
+                                         )
                                          )
 
                     break
@@ -68,7 +70,7 @@ class Spider(scrapy.Spider):
                 break
 
     def parse(self, response, link, published, title, crime_keyword):
-        item = GoogleNewsItem() # this item will be writin in output file, when it is yield
+        item = GoogleNewsItem()  # this item will be writin in output file, when it is yield
 
         # parse only responses with status code 200
         if response.status == 200:
