@@ -1,23 +1,21 @@
+import os
 import time
 import scrapy
-from scrapy.crawler import CrawlerProcess
-from gnewsparser import GnewsParser
+from google_news.spiders.gnewsparser import GnewsParser
 
-# run with command: scrapy crawl spider -o <outputfile.csv> -t csv
+# run with command: scrapy crawl spider -o <outputfile.json>
+# working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
+
+# TODO: 1. citat zlociny jeden po druhom zo suboru moricovho
+# TODO: 2. zapis vsetkych zlocinov s keywords a linkami na disk
+# TODO: 3. umoznit iba scrapy logs a nie udaje o articles
 
 class Spider(scrapy.Spider):
     name = "spider"
 
-    # TODO: write article links with keywords to json, when last request ends
-    # NOTE: find out how can program detects, that last request ends
     article_links = {} # storing article links, with crime keywords
 
     crime_keywords = ['murder']
-
-    custom_settings = {
-        'FEED_FORMAT': 'json',
-        'FEED_URI': 'output.json'
-    }
 
     def start_requests(self):
         gnews_parser = GnewsParser()
@@ -49,7 +47,9 @@ class Spider(scrapy.Spider):
                         )
                     )
 
-            break
+                    break
+
+                break
 
     def parse(self, response, link, published, title, crime_keyword):
         # parse only responses with status code 200
@@ -66,18 +66,13 @@ class Spider(scrapy.Spider):
                 self.article_links[link].append(crime_keyword)
 
                 # writes data in json, but also in cmd
-                # TODO: have to remove writing to cmd
                 yield {
                     "title": title,
                     "published": published,
                     "link": link,
                     "html": body_tag
                 }
-            except:
+                print(os.getcwd() + ' CICINA')
+            except Exception:
                 # if page doesn't contains body tag, program will execute this line of code
                 pass
-
-# run Spider
-process = CrawlerProcess()
-process.crawl(Spider)
-process.start()
