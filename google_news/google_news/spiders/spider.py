@@ -1,28 +1,43 @@
 import os
 import time
+from os.path import dirname
 import scrapy
 from google_news.spiders.gnewsparser import GnewsParser
+
+CRIME_KEYWORD_FILE = '\list_of_crimes.txt'
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
 
-# TODO: 1. citat zlociny jeden po druhom zo suboru moricovho
 # TODO: 2. zapis vsetkych zlocinov s keywords a linkami na disk
 # TODO: 3. umoznit iba scrapy logs a nie udaje o articles
+
+
+# open crime keywords file and load them into list
+def load_crime_keywords():
+    crime_keywords = []
+    crime_keywords_filepath = dirname(dirname(dirname(dirname(__file__))))
+
+    with open(crime_keywords_filepath + CRIME_KEYWORD_FILE) as file:
+        for line in file:
+            crime_keywords.append(line.rstrip())
+
+    return crime_keywords
+
 
 class Spider(scrapy.Spider):
     name = "spider"
 
     article_links = {} # storing article links, with crime keywords
 
-    crime_keywords = ['murder']
+    crime_keywords = load_crime_keywords()
 
     def start_requests(self):
         gnews_parser = GnewsParser()
 
         # set up searching for each crime defined in crime_keywords
         for crime_keyword in self.crime_keywords:
-            gnews_parser.setup_search('murder', '2020-12-01', '2020-12-31')
+            gnews_parser.setup_search(crime_keyword, '2020-12-01', '2020-12-31')
 
             while True:
                 res = gnews_parser.get_results() # getting articles on daily basis
