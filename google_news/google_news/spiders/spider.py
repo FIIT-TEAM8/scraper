@@ -49,6 +49,8 @@ class Spider(scrapy.Spider):
                         )
                     )
 
+            break
+
     def parse(self, response, link, published, title, crime_keyword):
         # parse only responses with status code 200
         if response.status == 200:
