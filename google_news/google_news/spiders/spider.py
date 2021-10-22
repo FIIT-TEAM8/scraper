@@ -9,8 +9,8 @@ from ..spiders.gnewsparser import GnewsParser
 # from google_news.items import GoogleNewsItem
 from ..items import GoogleNewsItem
 
-
 CRIME_KEYWORD_FILE = '\list_of_crimes.txt'
+
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
