@@ -1,8 +1,8 @@
-import os
-import time
 import scrapy
+# probably a bad import practice? if something breaks uncomment this and comment the other import of GnewsParser :)
+# from google_news.spiders.gnewsparser import GnewsParser
+from ..spiders.gnewsparser import GnewsParser
 from google_news.items import GoogleNewsItem
-from google_news.spiders.gnewsparser import GnewsParser
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
@@ -13,7 +13,7 @@ from google_news.spiders.gnewsparser import GnewsParser
 class Spider(scrapy.Spider):
     name = "spider"
 
-    article_links = {} # storing article links, with crime keywords
+    article_links = {}  # storing article links, with crime keywords
 
     crime_keywords = ['murder']
 
@@ -25,7 +25,7 @@ class Spider(scrapy.Spider):
             gnews_parser.setup_search('murder', '2020-12-01', '2020-12-31')
 
             while True:
-                res = gnews_parser.get_results() # getting articles on daily basis
+                res = gnews_parser.get_results()  # getting articles on daily basis
 
                 if res is None:
                     break
@@ -38,14 +38,14 @@ class Spider(scrapy.Spider):
 
                     # make get request on article link
                     yield scrapy.Request(link,
-                        callback=self.parse,
-                        cb_kwargs=dict(
-                            link=link,
-                            published=published, 
-                            title=title,
-                            crime_keyword=crime_keyword
-                        )
-                    )
+                                         callback=self.parse,
+                                         cb_kwargs=dict(
+                                             link=link,
+                                             published=published,
+                                             title=title,
+                                             crime_keyword=crime_keyword
+                                            )
+                                         )
 
                     break
 

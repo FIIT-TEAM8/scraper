@@ -1,3 +1,8 @@
 /venv
 /google_news/google_news/spiders/output.json
 /google_news/google_news/output.json
+/google_news/*.jl
+google_news/google_news/__pycache__
+.idea
+/google_news/*.json
+*.pyc
