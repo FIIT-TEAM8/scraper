@@ -3,6 +3,6 @@
   * go to repository folder
   * python -m venv .\venv
   * .\venv\Scripts\activate
-  * pip install scrapy
+  * pip install -r requirements.txt
   * cd .\google_news\google_news\spiders\
   * python .\spider.py
