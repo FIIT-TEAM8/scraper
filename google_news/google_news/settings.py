@@ -14,6 +14,8 @@ SPIDER_MODULES = ['google_news.spiders']
 NEWSPIDER_MODULE = 'google_news.spiders'
 
 LOG_LEVEL = 'DEBUG'
+LOG_FILE = '../scrape_log.txt'
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'google_news (+http://www.yourdomain.com)'
 
@@ -30,6 +32,7 @@ FEEDS = {
     }
 }
 
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
