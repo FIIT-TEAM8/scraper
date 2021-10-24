@@ -4,5 +4,5 @@
   * python -m venv .\venv
   * .\venv\Scripts\activate
   * pip install -r requirements.txt
-  * cd .\google_news\google_news\
+  * cd .\google_news
   * python main.py
