@@ -36,10 +36,10 @@ class Spider(scrapy.Spider):
     crime_keywords = load_crime_keywords()
 
     def start_requests(self):
-        gnews_parser = GnewsParser()
 
         # set up searching for each crime defined in crime_keywords
         for crime_keyword in self.crime_keywords:
+            gnews_parser = GnewsParser()
             gnews_parser.setup_search(crime_keyword, '2020-12-01', '2020-12-31')
 
             while True:
