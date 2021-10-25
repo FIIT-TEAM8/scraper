@@ -13,22 +13,23 @@ BOT_NAME = 'google_news'
 SPIDER_MODULES = ['google_news.spiders']
 NEWSPIDER_MODULE = 'google_news.spiders'
 
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'INFO'
 LOG_FILE = '../scrape_log.txt'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'google_news (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 16
 
 FEEDS = {
     "../articles.jl": {
         "format": "jsonlines",
-        "overwrite": True
+        "overwrite": True,
+        "encoding": "utf8"
     }
 }
 
