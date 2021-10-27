@@ -24,6 +24,7 @@ ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 16
+DOWNLOAD_TIMEOUT = 20
 
 FEEDS = {
     "../articles.jl": {
