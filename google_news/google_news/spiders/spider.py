@@ -32,6 +32,7 @@ class Spider(scrapy.Spider):
     name = "spider"
 
     article_links = {}  # storing article links, with crime keywords
+    error_links = {}    # storing links + keywords with error response codes
 
     crime_keywords = load_crime_keywords()
 
@@ -63,9 +64,12 @@ class Spider(scrapy.Spider):
                                              published=published,
                                              title=title,
                                              crime_keyword=crime_keyword
-                                            )
+                                            ),
+                                         meta={
+                                             'handle_httpstatus_all': True,
+                                             'dont_retry': True,
+                                         },
                                          )
-
                     # break
 
                 # break
@@ -97,3 +101,12 @@ class Spider(scrapy.Spider):
             except Exception:
                 # if page doesn't contains body tag, program will execute this line of code
                 pass
+
+        # store respones with status code other than 200
+        else:
+            # initialize keywords list for article link
+            if link not in self.error_links:
+                self.error_links[link] = []
+
+            # add article keyword to list of keywords
+            self.error_links[link].append(crime_keyword)

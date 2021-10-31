@@ -10,3 +10,6 @@ process.start()
 
 with open("../crimes_map.json", "w") as f:
     json.dump(Spider.article_links, f)
+
+with open("../error_links.json", "w") as f:
+    json.dump(Spider.error_links, f)
