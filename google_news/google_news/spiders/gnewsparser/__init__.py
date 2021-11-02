@@ -6,8 +6,11 @@ import json
 class GnewsParser:
     __BASE_URL = "https://news.google.com/rss/search?q=<QUERY><DATERANGE><LOCALE>"
     __DATE_RANGE = "+after:<AFTER>+before:<BEFORE>"
-    __EN_US_LOCALE = "&ceid=US:en&hl=en-US&gl=US"
-    __SK_SK_LOCALE = "&ceid=SK:en&hl=sk-SK&gl=SK"
+    __LOCALE = {
+        "sk": "&hl=sk&gl=SK&ceid=SK:sk",
+        "en-us": "&hl=en-US&gl=US&ceid=US:en",
+        "en-gb": "&hl=en-GB&gl=GB&ceid=GB:en"
+    }
 
     def __init__(self):
         self.__url = GnewsParser.__BASE_URL
@@ -31,10 +34,7 @@ class GnewsParser:
     def __setup_base_url(self, query, locale):
         self.__url = self.__url.replace("<QUERY>", self.__get_clean_query(query))
         self.__url = self.__url.replace("<DATERANGE>", GnewsParser.__DATE_RANGE)
-        if locale == "en-us":
-            self.__url = self.__url.replace("<LOCALE>", GnewsParser.__EN_US_LOCALE)
-        elif locale == "sk":
-            self.__url = self.__url.replace("<LOCALE>", GnewsParser.__SK_SK_LOCALE)
+        self.__url = self.__url.replace("<LOCALE>", GnewsParser.__LOCALE[locale])
 
     def __get_clean_query(self, query):
         return query.replace(" ", "%20")
