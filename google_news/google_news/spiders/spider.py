@@ -70,9 +70,9 @@ class Spider(scrapy.Spider):
                                              'dont_retry': True,
                                          },
                                          )
-                    # break
+                    break
 
-                # break
+                break
 
     def parse(self, response, link, published, title, crime_keyword):
         item = GoogleNewsItem()  # this item will be writin in output file, when it is yield
@@ -90,7 +90,7 @@ class Spider(scrapy.Spider):
                 # add article keyword to list of keywords
                 self.article_links[link].append(crime_keyword)
 
-                # writes data into item, which will be yield into output file
+                # writes data into item, which will be yield into MongoDB pipeline
                 item['title'] = title,
                 item['published'] = published,
                 item['link'] = link,
