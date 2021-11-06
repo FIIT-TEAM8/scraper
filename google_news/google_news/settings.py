@@ -26,13 +26,13 @@ ROBOTSTXT_OBEY = False
 CONCURRENT_REQUESTS = 16
 DOWNLOAD_TIMEOUT = 20
 
-FEEDS = {
-    "../articles.jl": {
-        "format": "jsonlines",
-        "overwrite": True,
-        "encoding": "utf8"
-    }
-}
+# FEEDS = {
+#     "../articles.jl": {
+#         "format": "jsonlines",
+#         "overwrite": True,
+#         "encoding": "utf8"
+#     }
+# }
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
 # Configure a delay for requests for the same website (default: 0)
@@ -75,9 +75,25 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'google_news.pipelines.GoogleNewsPipeline': 300,
-# }
+
+
+ITEM_PIPELINES = {
+    'google_news.pipelines.MongoPipeline': 300,
+    #'google_news.pipelines.GoogleNewsPipeline': 300,
+}
+
+# db server and port (local for now)
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+
+# db name
+MONGODB_DB = "amsdb"
+
+# db collections
+MONGODB_ARTICLES = "articles"
+MONGODB_CRIMEMAPS = "crimemaps"
+MONGODB_ERRORLINKS = "errorlinks"
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
