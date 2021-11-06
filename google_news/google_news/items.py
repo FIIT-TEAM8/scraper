@@ -12,6 +12,7 @@ class GoogleNewsItem(scrapy.Item):
     published = scrapy.Field()
     link = scrapy.Field()
     html = scrapy.Field()
+    locale = scrapy.Field()
                     
     def __str__(self):
         return "----------------------------------------SCRAPED RIGHT----------------------------------------"
