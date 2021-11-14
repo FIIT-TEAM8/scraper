@@ -1,4 +1,5 @@
 from os.path import dirname
+from database import Database
 
 import scrapy
 # probably a bad import practice? if something breaks uncomment this and comment the other import of GnewsParser :)
@@ -9,7 +10,7 @@ from ..spiders.gnewsparser import GnewsParser
 # from google_news.items import GoogleNewsItem
 from ..items import GoogleNewsItem
 
-CRIME_KEYWORD_FILE = '\\crimes\\3_part.txt'
+CRIME_KEYWORD_FILE = '\\crimes\\5_part.txt'
 LOCALE = {
         "sk": "sk",
         "us": "en-us",
@@ -34,9 +35,6 @@ def load_crime_keywords():
 
 class Spider(scrapy.Spider):
     name = "spider"
-
-    article_links = {}  # storing article links, with crime keywords
-    error_links = {}    # storing links + keywords with error response codes
 
     crime_keywords = load_crime_keywords()
     locale = LOCALE['gb']
@@ -81,6 +79,7 @@ class Spider(scrapy.Spider):
 
     def parse(self, response, link, published, title, crime_keyword):
         item = GoogleNewsItem()  # this item will be writin in output file, when it is yield
+        Database.initialize()    # connect to mongo database
 
         # parse only responses with status code 200
         if response.status == 200:
@@ -88,12 +87,8 @@ class Spider(scrapy.Spider):
                 # retrieve body tag with data
                 body_tag = response.css('body').get()
 
-                # initialize keywords list for article link
-                if link not in self.article_links:
-                    self.article_links[link] = []
-                
-                # add article keyword to list of keywords
-                self.article_links[link].append(crime_keyword)
+                # insert to database or update crime keywords
+                Database.update('crimemaps', link, crime_keyword)
 
                 # writes data into item, which will be yield into MongoDB pipeline
                 item['title'] = title,
@@ -110,9 +105,5 @@ class Spider(scrapy.Spider):
 
         # store respones with status code other than 200
         else:
-            # initialize keywords list for article link
-            if link not in self.error_links:
-                self.error_links[link] = []
-
-            # add article keyword to list of keywords
-            self.error_links[link].append(crime_keyword)
+            # insert to database or update crime keywords
+            Database.update('errorlinks', link, crime_keyword)  
