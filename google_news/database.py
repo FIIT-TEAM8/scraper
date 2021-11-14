@@ -24,3 +24,8 @@ class Database(object):
     @staticmethod
     def insert(collection, document):
         Database.DATABASE[collection].insert(document)
+
+    @staticmethod
+    def update(collection, link, to_update):
+        Database.DATABASE[collection].update_one({'link': link}, 
+                                                 {'$addToSet': {'keywords': to_update}}, upsert=True)
