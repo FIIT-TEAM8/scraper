@@ -39,11 +39,29 @@ def get_text_content(html):
     final_html = ""
 
     try:
+        # select only paragraphs and headings using xpath
         text_results = Selector(text=html).xpath('//p | //h1 | //h2 | //h3 | //h4 | //h5 | //h6').getall()
     except:
         return final_html
 
+    # for each result (paragraph or heading tag) remove
+    # all specifications - classes, ids etc.    
     for result in text_results:
+        i = result.index(">")
+ 
+        if "<p" in result:
+            result = result[:2] + result[i:]
+            tag_content = result[3:-4]
+
+        elif "<h" in result:
+            result = result[:3] + result[i:]
+            tag_content = result[4:-5]
+
+        # check if the body of current tag is empty
+        # if it is, then ignore the tag
+        if not tag_content.strip():
+            continue
+
         result = str(result)
         final_html += result
 
