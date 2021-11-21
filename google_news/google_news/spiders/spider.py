@@ -10,6 +10,8 @@ from ..spiders.gnewsparser import GnewsParser
 # from google_news.items import GoogleNewsItem
 from ..items import GoogleNewsItem
 
+from scrapy import Selector
+
 CRIME_KEYWORD_FILE = '\\crimes\\5_part.txt'
 LOCALE = {
         "sk": "sk",
@@ -31,6 +33,39 @@ def load_crime_keywords():
             crime_keywords.append(line.rstrip())
 
     return crime_keywords
+
+
+def get_text_content(html):
+    final_html = ""
+
+    try:
+        # select only paragraphs and headings using xpath
+        text_results = Selector(text=html).xpath('//p | //h1 | //h2 | //h3 | //h4 | //h5 | //h6').getall()
+    except:
+        return final_html
+
+    # for each result (paragraph or heading tag) remove
+    # all specifications - classes, ids etc.    
+    for result in text_results:
+        i = result.index(">")
+ 
+        if "<p" in result:
+            result = result[:2] + result[i:]
+            tag_content = result[3:-4]
+
+        elif "<h" in result:
+            result = result[:3] + result[i:]
+            tag_content = result[4:-5]
+
+        # check if the body of current tag is empty
+        # if it is, then ignore the tag
+        if not tag_content.strip():
+            continue
+
+        result = str(result)
+        final_html += result
+
+    return final_html
 
 
 class Spider(scrapy.Spider):
@@ -86,6 +121,8 @@ class Spider(scrapy.Spider):
             try:
                 # retrieve body tag with data
                 body_tag = response.css('body').get()
+                # retrieve only text tags from html body (paragraphs and headings)
+                text_content = get_text_content(body_tag)
 
                 # insert to database or update crime keywords
                 Database.update('crimemaps', link, crime_keyword)
@@ -94,7 +131,7 @@ class Spider(scrapy.Spider):
                 item['title'] = title,
                 item['published'] = published,
                 item['link'] = link,
-                item['html'] = body_tag
+                item['html'] = text_content
                 item['locale'] = self.locale
 
                 yield item
