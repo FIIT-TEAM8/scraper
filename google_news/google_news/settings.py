@@ -7,6 +7,7 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import pathlib
+import os
 
 BOT_NAME = 'google_news'
 
@@ -14,7 +15,7 @@ SPIDER_MODULES = ['google_news.spiders']
 NEWSPIDER_MODULE = 'google_news.spiders'
 
 LOG_LEVEL = 'INFO'
-LOG_FILE = '../scrape_log.txt'
+# LOG_FILE = '../scrape_log.txt'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'google_news (+http://www.yourdomain.com)'
@@ -35,6 +36,31 @@ DOWNLOAD_TIMEOUT = 20
 # }
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
+
+ITEM_PIPELINES = {
+    'google_news.pipelines.MongoPipeline': 300,
+    #'google_news.pipelines.GoogleNewsPipeline': 300,
+}
+
+# db server and port (local for now)
+MONGODB_SERVER = os.environ.get("MONGO_SERVER_URL") or "localhost"
+MONGODB_PORT = os.environ.get("MONGO_SERVER_PORT") or 27017
+
+MONGODB_USER = os.environ.get("MONGO_USER") or "root"
+MONGODB_PASSWORD = os.environ.get("MONGO_PASSWORD") or "example"
+
+MONGODB_URI = "mongodb://{user}:{password}@{server_url}:{port}/".format(user=MONGODB_USER, 
+                                                                        password=MONGODB_PASSWORD, 
+                                                                        server_url=MONGODB_SERVER, 
+                                                                        port=MONGODB_PORT)
+
+# db name
+MONGODB_DB = os.environ.get("MONGO_DB") or "ams_db"
+
+# db collections
+MONGODB_ARTICLES = "articles"
+MONGODB_CRIMEMAPS = "crimemaps"
+MONGODB_ERRORLINKS = "errorlinks"
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
@@ -77,22 +103,7 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-ITEM_PIPELINES = {
-    'google_news.pipelines.MongoPipeline': 300,
-    #'google_news.pipelines.GoogleNewsPipeline': 300,
-}
 
-# db server and port (local for now)
-MONGODB_SERVER = "localhost"
-MONGODB_PORT = 27017
-
-# db name
-MONGODB_DB = "amsdb"
-
-# db collections
-MONGODB_ARTICLES = "articles"
-MONGODB_CRIMEMAPS = "crimemaps"
-MONGODB_ERRORLINKS = "errorlinks"
 
 
 # Enable and configure the AutoThrottle extension (disabled by default)

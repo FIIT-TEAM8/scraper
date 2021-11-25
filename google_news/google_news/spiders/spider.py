@@ -1,5 +1,6 @@
 from os.path import dirname
 from database import Database
+import os
 
 import scrapy
 # probably a bad import practice? if something breaks uncomment this and comment the other import of GnewsParser :)
@@ -9,31 +10,14 @@ from ..spiders.gnewsparser import GnewsParser
 # same stuff as import above
 # from google_news.items import GoogleNewsItem
 from ..items import GoogleNewsItem
-
 from scrapy import Selector
 
-CRIME_KEYWORD_FILE = '\\crimes\\5_part.txt'
-LOCALE = {
-        "sk": "sk",
-        "us": "en-us",
-        "gb": "en-gb"
-    }
+
+
+CRIMES_FOLDER = '../crimes/'
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
-
-
-# open crime keywords file and load them into list
-def load_crime_keywords():
-    crime_keywords = []
-    crime_keywords_filepath = dirname(dirname(dirname(dirname(__file__))))
-
-    with open(crime_keywords_filepath + CRIME_KEYWORD_FILE) as file:
-        for line in file:
-            crime_keywords.append(line.rstrip())
-
-    return crime_keywords
-
 
 def get_text_content(html):
     final_html = ""
@@ -69,18 +53,32 @@ def get_text_content(html):
 
 
 class Spider(scrapy.Spider):
+
+
+    def __load_crimes(self):
+        results = []
+        print(os.getcwd())
+        for line in open(self.crimes_file, "r"):
+            results.append(line.rstrip())
+        return results
+
     name = "spider"
 
-    crime_keywords = load_crime_keywords()
-    locale = LOCALE['gb']
+
+    def __init__(self, crimes_file="murder.txt", search_from="", search_to="", locale="",  **kwargs):
+        super().__init__(**kwargs)
+        self.crimes_file = CRIMES_FOLDER + crimes_file
+        self.search_from = search_from
+        self.search_to = search_to
+        self.locale = locale
+    
 
     def start_requests(self):
-        
         # set up searching for each crime defined in crime_keywords
-        for crime_keyword in self.crime_keywords:
+        for crime_keyword in self.__load_crimes():
             print("processing crime: ", crime_keyword)
             gnews_parser = GnewsParser()
-            gnews_parser.setup_search(crime_keyword, '2021-09-01', '2021-10-25', locale=self.locale)
+            gnews_parser.setup_search(crime_keyword, self.search_from, self.search_to, locale=self.locale)
             
             while True:
                 res = gnews_parser.get_results()  # getting articles on daily basis

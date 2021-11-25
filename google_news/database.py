@@ -7,10 +7,7 @@ class Database(object):
 
     @staticmethod
     def initialize():
-        connection = pymongo.MongoClient(
-            settings.MONGODB_SERVER,
-            settings.MONGODB_PORT
-        )
+        connection = pymongo.MongoClient(settings.MONGODB_URI)
         Database.DATABASE = connection[settings.MONGODB_DB]
         articles = Database.DATABASE[settings.MONGODB_ARTICLES]
         crime_maps = Database.DATABASE[settings.MONGODB_CRIMEMAPS]
