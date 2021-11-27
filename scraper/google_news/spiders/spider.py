@@ -1,20 +1,14 @@
 from os.path import dirname
 from database import Database
 import os
-
 import scrapy
-# probably a bad import practice? if something breaks uncomment this and comment the other import of GnewsParser :)
-# from google_news.spiders.gnewsparser import GnewsParser
-from ..spiders.gnewsparser import GnewsParser
-
-# same stuff as import above
-# from google_news.items import GoogleNewsItem
-from ..items import GoogleNewsItem
+from gnewsparser import GnewsParser
+from google_news.items import GoogleNewsItem
 from scrapy import Selector
 
 
 
-CRIMES_FOLDER = '../crimes/'
+CRIMES_FOLDER = './crimes/'
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
@@ -53,7 +47,7 @@ def get_text_content(html):
 
 
 class Spider(scrapy.Spider):
-    name = "spider"
+    name = "news_spider"
 
     __ERROR_MESSAGE = """
         Please provide arguments. Example:
