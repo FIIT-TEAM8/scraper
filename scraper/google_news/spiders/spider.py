@@ -53,8 +53,12 @@ def get_text_content(html):
 
 
 class Spider(scrapy.Spider):
+    name = "spider"
 
-
+    __ERROR_MESSAGE = """
+        Please provide arguments. Example:
+        scrapy crawl {spider_name} -a crimes_file=FILE -a search_from=DATE -a search_to=DATE -a locale=LOCALE
+    """
     def __load_crimes(self):
         results = []
         print(os.getcwd())
@@ -62,11 +66,13 @@ class Spider(scrapy.Spider):
             results.append(line.rstrip())
         return results
 
-    name = "spider"
 
 
     def __init__(self, crimes_file="murder.txt", search_from="", search_to="", locale="",  **kwargs):
         super().__init__(**kwargs)
+        if search_from == "" or search_to == "" or locale == "":
+            print(self.__ERROR_MESSAGE)
+            exit(1)
         self.crimes_file = CRIMES_FOLDER + crimes_file
         self.search_from = search_from
         self.search_to = search_to
