@@ -6,3 +6,8 @@ google_news/google_news/__pycache__
 .idea
 /google_news/*.json
 *.pyc
+logs
+eggs
+scraper/dbs
+scraper/build
+scraper/project.egg-info

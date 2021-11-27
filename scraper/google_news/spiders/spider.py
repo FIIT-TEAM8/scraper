@@ -14,7 +14,7 @@ from scrapy import Selector
 
 
 
-CRIMES_FOLDER = '../crimes/'
+CRIMES_FOLDER = './crimes/'
 
 # run with command: scrapy crawl spider -o <outputfile.json>
 # working directory: C:\Users\jakub\team_project\scraper\google_news\google_news
