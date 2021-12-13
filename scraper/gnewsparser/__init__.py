@@ -56,7 +56,7 @@ class GnewsParser:
             return None
         return res["entries"]
 
-    def save_state(self, save_file):
+    def save_state(self):
         save = {
             "last_url": self.__last_used_url,
             "search_from": self.__start_date.strftime("%Y-%m-%d"),
@@ -66,8 +66,7 @@ class GnewsParser:
             "locale": self.__locale,
             "query": self.__query
         }
-        with open(save_file, "w") as fp:
-            json.dump(save, fp)
+        return save
 
     def setup_search_from_state(self, save_file):
         f = open(save_file, "r")

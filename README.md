@@ -19,3 +19,9 @@ Example:
 ```
  scrapy crawl news_spider -a crimes_file=murder.txt -a search_from=2020-01-01 -a search_to=2020-01-05 -a locale=en-gb
 ```
+
+## Testing:
+Run this commad in the root of this repository:
+```
+python -m unittest discover
+```
