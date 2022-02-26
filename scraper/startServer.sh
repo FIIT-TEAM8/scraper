@@ -1,4 +1,4 @@
 #!/bin/sh
 
-scrapyd & 
+scrapyd &> output.log &
 scrapyd-deploy
