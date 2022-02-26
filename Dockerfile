@@ -14,4 +14,4 @@ RUN chmod +x startServer.sh
 
 EXPOSE 6800
 
-ENTRYPOINT ["/bin/sh","startServer.sh"]
+CMD ["/bin/sh","startServer.sh"]
