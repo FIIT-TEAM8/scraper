@@ -1,4 +1,4 @@
-set -m
+#!/bin/sh
+
 scrapyd & 
 scrapyd-deploy
-fg
