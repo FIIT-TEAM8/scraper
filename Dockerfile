@@ -10,6 +10,8 @@ RUN pip install -r requirements.txt
 
 WORKDIR /myApp/scraper
 
+RUN chmod +x startServer.sh
+
 EXPOSE 6800
 
 CMD ["./startServer.sh"]
