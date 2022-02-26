@@ -1,4 +1,4 @@
-FROM python:3.9-alpine
+FROM python:3.9-bullseye
 
 WORKDIR /myApp
 
@@ -14,4 +14,4 @@ RUN chmod +x startServer.sh
 
 EXPOSE 6800
 
-CMD ["/bin/sh" ,"./startServer.sh"]
+CMD ["/bin/bash" ,"./startServer.sh"]
