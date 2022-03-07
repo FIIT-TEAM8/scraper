@@ -8,12 +8,6 @@ from database import Database
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
-
-# class GoogleNewsPipeline:
-#     def process_item(self, item, spider):
-#         return item
-
-
 class MongoPipeline(object):
     def __init__(self):
         Database.initialize()
@@ -45,4 +39,13 @@ class MongoPipeline(object):
         
         # inserts into collection if document doesnt exist
         Database.insert("articles", to_insert)
+
         return item
+
+# class ElasticsearchPipeline:
+#     def __init__(self):
+#         pass
+
+#     def process_item(self, item, spider):
+#         print('elastic pipepline')
+#         return item
