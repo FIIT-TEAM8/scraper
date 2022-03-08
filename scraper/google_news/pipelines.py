@@ -4,6 +4,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 from database import Database
+from elastic import Elastic
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
@@ -38,14 +39,19 @@ class MongoPipeline(object):
             to_insert[field] = eval(field)
         
         # inserts into collection if document doesnt exist
-        Database.insert("articles", to_insert)
+        article_id = Database.insert("articles", to_insert)
+
+        item['article_id'] = article_id
 
         return item
 
-# class ElasticsearchPipeline:
-#     def __init__(self):
-#         pass
+class ElasticsearchPipeline:
+    def __init__(self):
+        Elastic.initialize()
 
-#     def process_item(self, item, spider):
-#         print('elastic pipepline')
-#         return item
+    def process_item(self, item, spider):
+        article_id = item['article_id']
+        
+        Elastic.index_article(article_id, item)
+
+        return item
