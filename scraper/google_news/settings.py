@@ -40,7 +40,7 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 
 # what means integer in ITEM_PIPELINES: https://docs.scrapy.org/en/latest/topics/item-pipeline.html#activating-an-item-pipeline-component
 ITEM_PIPELINES = {
     'google_news.pipelines.MongoPipeline': 300,
-    'google_news.pipelines.ElasticsearchPipeline': 800,
+    'google_news.pipelines.ElasticsearchPipeline': 500,
 }
 
 # db server and port (local for now)
