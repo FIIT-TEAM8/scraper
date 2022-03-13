@@ -17,7 +17,7 @@ Arguments need to be passed using scrapy anotation, with the _-a_ switch.
 Example:
  
 ```
- scrapy crawl news_spider -a crimes_file=murder.txt -a search_from=2020-01-01 -a search_to=2020-01-05 -a locale=en-gb
+ scrapy crawl news_spider -a crimes_file=murder.txt -a search_from=2020-01-01 -a search_to=2020-01-04 -a locale=en-gb
 ```
 
 ## Testing:

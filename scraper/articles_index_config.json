@@ -1,0 +1,41 @@
+{
+    "settings": {
+        "index": {
+            "number_of_shards": 1,  
+            "number_of_replicas": 1 
+        },
+        "analysis":{
+            "analyzer":{
+                "english_stop_analyzer":{ 
+                    "type":"custom",
+                    "tokenizer":"standard",
+                    "filter":[
+                        "lowercase",
+                        "english_stop_words"
+                    ]
+                }
+        },
+        "filter":{
+            "english_stop_words": {
+                "type": "stop",
+                "stopwords":"_english_",
+                "ignore_case": true,
+                "remove_trailing": true
+              }
+            }
+        }
+    },
+    "mappings": {
+        "_source": {
+            "enabled": false
+        },
+        "properties": {
+            "text": {
+                "type": "text",
+                "store": false,
+                "analyzer": "english_stop_analyzer",
+                "search_analyzer": "english_stop_analyzer"
+            }
+        }
+    }
+}

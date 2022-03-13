@@ -1,6 +1,8 @@
+import os
+import sys
+import json
 import pymongo
 import google_news.settings as settings
-
 
 class Database(object):
     DATABASE = None
@@ -12,7 +14,7 @@ class Database(object):
         articles = Database.DATABASE[settings.MONGODB_ARTICLES]
         crime_maps = Database.DATABASE[settings.MONGODB_CRIMEMAPS]
         error_links = Database.DATABASE[settings.MONGODB_ERRORLINKS]
-    
+
         articles.create_index('link', unique=True)
         crime_maps.create_index('link', unique=True)
         error_links.create_index('link', unique=True)
@@ -20,7 +22,9 @@ class Database(object):
 
     @staticmethod
     def insert(collection, document):
-        Database.DATABASE[collection].insert(document)
+        article_id = Database.DATABASE[collection].insert(document)
+
+        return article_id
 
     @staticmethod
     def update(collection, link, to_update):

@@ -1,5 +1,6 @@
 from os.path import dirname
 from database import Database
+from elastic import Elastic
 import os
 import scrapy
 from gnewsparser import GnewsParser
@@ -113,6 +114,7 @@ class Spider(scrapy.Spider):
     def parse(self, response, link, published, title, crime_keyword):
         item = GoogleNewsItem()  # this item will be writin in output file, when it is yield
         Database.initialize()    # connect to mongo database
+        Elastic.initialize() # connect to elasticsearch
 
         # parse only responses with status code 200
         if response.status == 200:
