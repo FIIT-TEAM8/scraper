@@ -75,8 +75,10 @@ class Spider(scrapy.Spider):
     
 
     def start_requests(self):
+        loades_crimes = self.__load_crimes()
+
         # set up searching for each crime defined in crime_keywords
-        for crime_keyword in self.__load_crimes():
+        for crime_keyword in loades_crimes:
             print("processing crime: ", crime_keyword)
             gnews_parser = GnewsParser()
             gnews_parser.setup_search(crime_keyword, self.search_from, self.search_to, locale=self.locale)
@@ -101,6 +103,7 @@ class Spider(scrapy.Spider):
                                              published=published,
                                              title=title,
                                              crime_keyword=crime_keyword
+                                             loades_crimes=loades_crimes
                                             ),
                                          meta={
                                              'handle_httpstatus_all': True,
@@ -111,7 +114,7 @@ class Spider(scrapy.Spider):
 
                 # break
 
-    def parse(self, response, link, published, title, crime_keyword):
+    def parse(self, response, link, published, title, crime_keyword , loaded_crimes):
         item = GoogleNewsItem()  # this item will be writin in output file, when it is yield
         Database.initialize()    # connect to mongo database
         Elastic.initialize() # connect to elasticsearch
