@@ -8,7 +8,7 @@
   * scrapy scrawl news_spider <ARGUMENTS>
  
  arguments:
-  * crimes_file=<FILENAME> - filename of crimes to parse. (murder.txt / list_of_crimes.txt / 1_part.txt etc.)
+  * crimes_file=<FILENAME> - filename of crimes to parse. (murder.txt / list_of_crimes_english.txt / list_of_crimes_slovak.txt etc.)
   * search_from=YYYY-MM-DD - date
   * search_to=YYYY-MM-DD - date
   * locale=locale - set your locale (en-gb / sk-sk etc.)
