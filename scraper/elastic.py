@@ -51,7 +51,7 @@ class Elastic(object):
         # article's html
         article_column_value = document[Elastic.article_column]
 
-        Elastic.es_connection.index(
+        response = Elastic.es_connection.index(
             index=Elastic.elastic_index_name,
             doc_type='_doc',
             id=article_id, # document id in Elasticsearch == article id in articles collection
@@ -59,3 +59,9 @@ class Elastic(object):
                 {Elastic.elastic_field: article_column_value}
             )
         )
+
+        # inform user about not indexed article
+        if 'result' not in response:
+            print('FAIL TO INDEX ARTICLE: {} AND RESPONSE DOESN\'T HAVE result FIELD'.format(article_id))
+        elif response['result'] != 'created' and response['result'] != 'updated':
+            print('FAIL TO INDEX ARTICLE: {}, RESPONSE RESULT: {}'.format(article_id, response['result']))

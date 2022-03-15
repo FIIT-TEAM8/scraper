@@ -75,10 +75,10 @@ class Spider(scrapy.Spider):
     
 
     def start_requests(self):
-        loades_crimes = self.__load_crimes()
+        loaded_crimes = self.__load_crimes()
 
         # set up searching for each crime defined in crime_keywords
-        for crime_keyword in loades_crimes:
+        for crime_keyword in loaded_crimes:
             print("processing crime: ", crime_keyword)
             gnews_parser = GnewsParser()
             gnews_parser.setup_search(crime_keyword, self.search_from, self.search_to, locale=self.locale)
@@ -102,8 +102,8 @@ class Spider(scrapy.Spider):
                                              link=link,
                                              published=published,
                                              title=title,
-                                             crime_keyword=crime_keyword
-                                             loades_crimes=loades_crimes
+                                             crime_keyword=crime_keyword,
+                                             loaded_crimes=loaded_crimes
                                             ),
                                          meta={
                                              'handle_httpstatus_all': True,
@@ -127,8 +127,27 @@ class Spider(scrapy.Spider):
                 # retrieve only text tags from html body (paragraphs and headings)
                 text_content = get_text_content(body_tag)
 
+                # lower case text context for crimes keywords searching
+                text_content_lower = text_content.lower()
+
                 # insert to database or update crime keywords
                 Database.update('crimemaps', link, crime_keyword)
+
+                # iterate through each keyword and check if it is in article
+                for keyword_crime in loaded_crimes:
+                    # arleady contains this crime
+                    if keyword_crime == crime_keyword:
+                        continue
+                    
+                    # lower case keyword_crime before adding spaces
+                    # to find out if keyword_crime is single word add blank space before and after keyword_crime
+                    # this makes sure, that only whole words are matched and not substrings of words. example: 'word' in 'swordsmith' == True, but ' word ' in 'swordsmith' == False
+                    keyword_crime_spaces = ' ' + keyword_crime.lower() + ' '
+
+                    if keyword_crime_spaces in text_content_lower:
+                        print('UPDATED CRIME {} FOR LINK {}'.format(keyword_crime, link))
+                        # add crime keyword to crimemaps collection
+                        Database.update('crimemaps', link, keyword_crime)
 
                 # writes data into item, which will be yield into MongoDB pipeline
                 item['title'] = title,
