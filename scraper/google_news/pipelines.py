@@ -31,6 +31,8 @@ class MongoPipeline(object):
         link = item['link'][0]
         html = item['html']
         region, language = self.process_locale(item['locale'])
+        keywords = item['keywords']
+
         field_list = ['title', 'published', 'link', 'region', 'language', 'html']
         to_insert = {}
 

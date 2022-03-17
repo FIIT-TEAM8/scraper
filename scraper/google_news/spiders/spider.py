@@ -55,12 +55,20 @@ class Spider(scrapy.Spider):
         scrapy crawl {spider_name} -a crimes_file=FILE -a search_from=DATE -a search_to=DATE -a locale=LOCALE
     """
     def __load_crimes(self):
-        results = []
-        print(os.getcwd())
-        for line in open(self.crimes_file, "r"):
-            results.append(line.rstrip())
-        return results
+        crimes_dict:dict = {}
 
+        crime_f = open(self.crimes_file, "r")
+        crime_f_en = open(self.crimes_file_en, "r")
+
+        crime_lines:list[str] = crime_f.readlines()
+        crime_lines_en:list[str] = crime_f_en.readlines()
+
+        crimes_dict:dict = {crime_keyword: crime_keyword_en for crime_keyword, crime_keyword_en in zip(crime_lines, crime_lines_en)}
+
+        crime_f_en.close()
+        crime_f.close()
+
+        return crimes_dict
 
 
     def __init__(self, crimes_file="murder.txt", search_from="", search_to="", locale="",  **kwargs):
@@ -69,50 +77,53 @@ class Spider(scrapy.Spider):
             print(self.__ERROR_MESSAGE)
             exit(1)
         self.crimes_file = CRIMES_FOLDER + crimes_file
+        self.crimes_file_en = CRIMES_FOLDER + 'list_of_crimes_english.txt'
         self.search_from = search_from
         self.search_to = search_to
         self.locale = locale
     
 
     def start_requests(self):
-        loaded_crimes = self.__load_crimes()
+        loaded_crimes_dict = self.__load_crimes()
 
-        # set up searching for each crime defined in crime_keywords
-        for crime_keyword in loaded_crimes:
-            print("processing crime: ", crime_keyword)
-            gnews_parser = GnewsParser()
-            gnews_parser.setup_search(crime_keyword, self.search_from, self.search_to, locale=self.locale)
+        print(loaded_crimes_dict)
+
+        # # set up searching for each crime defined in crime_keywords
+        # for crime_keyword, eng_crime_keyword in loaded_crimes_dict.items():
+        #     print("processing crime: ", crime_keyword)
+        #     gnews_parser = GnewsParser()
+        #     gnews_parser.setup_search(crime_keyword, self.search_from, self.search_to, locale=self.locale)
             
-            while True:
-                res = gnews_parser.get_results()  # getting articles on daily basis
+        #     while True:
+        #         res = gnews_parser.get_results()  # getting articles on daily basis
 
-                if res is None:
-                    break
+        #         if res is None:
+        #             break
 
-                for article in res:
-                    # retrieve needed data from Google RSS
-                    link = article['link']
-                    title = article['title']
-                    published = article['published']
+        #         for article in res:
+        #             # retrieve needed data from Google RSS
+        #             link = article['link']
+        #             title = article['title']
+        #             published = article['published']
 
-                    # make get request on article link
-                    yield scrapy.Request(link,
-                                         callback=self.parse,
-                                         cb_kwargs=dict(
-                                             link=link,
-                                             published=published,
-                                             title=title,
-                                             crime_keyword=crime_keyword,
-                                             loaded_crimes=loaded_crimes
-                                            ),
-                                         meta={
-                                             'handle_httpstatus_all': True,
-                                             'dont_retry': True,
-                                         },
-                                         )
-                    # break
+        #             # make get request on article link
+        #             yield scrapy.Request(link,
+        #                                  callback=self.parse,
+        #                                  cb_kwargs=dict(
+        #                                      link=link,
+        #                                      published=published,
+        #                                      title=title,
+        #                                      crime_keyword=crime_keyword,
+        #                                      loaded_crimes=loaded_crimes
+        #                                     ),
+        #                                  meta={
+        #                                      'handle_httpstatus_all': True,
+        #                                      'dont_retry': True,
+        #                                  },
+        #                                  )
+        #             # break
 
-                # break
+        #         # break
 
     def parse(self, response, link, published, title, crime_keyword , loaded_crimes):
         item = GoogleNewsItem()  # this item will be writin in output file, when it is yield
