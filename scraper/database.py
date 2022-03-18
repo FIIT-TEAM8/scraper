@@ -18,6 +18,7 @@ class Database(object):
     @staticmethod
     def insert(collection, document):
         if Database.DATABASE is None:
+            print('Unable to add document to {} collection, because ther is no connection to MongoDB.'.format(collection))
             return None
 
         article_id = Database.DATABASE[collection].insert(document)
@@ -26,6 +27,9 @@ class Database(object):
 
     @staticmethod
     def update(collection, link, to_update):
-        if Database.DATABASE is not None:
-            Database.DATABASE[collection].update_one({'link': link}, 
+        if Database.DATABASE is None:
+            print('Unable to update collection {}, because there is not connection to MongoDB'.format(collection))
+            return None
+
+        Database.DATABASE[collection].update_one({'link': link}, 
                                                  {'$addToSet': {'keywords': to_update}}, upsert=True)

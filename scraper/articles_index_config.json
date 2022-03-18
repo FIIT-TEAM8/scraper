@@ -30,7 +30,43 @@
             "enabled": false
         },
         "properties": {
-            "text": {
+            "html": {
+                "type": "text",
+                "store": false,
+                "analyzer": "english_stop_analyzer",
+                "search_analyzer": "english_stop_analyzer"
+            },
+            "published": {
+                "type": "text",
+                "store": false,
+                "analyzer": "english_stop_analyzer",
+                "search_analyzer": "english_stop_analyzer"
+            },
+            "link": {
+                "type": "text",
+                "store": false,
+                "analyzer": "english_stop_analyzer",
+                "search_analyzer": "english_stop_analyzer"
+            },
+            "region": {
+                "type": "text",
+                "store": false,
+                "analyzer": "english_stop_analyzer",
+                "search_analyzer": "english_stop_analyzer"
+            },
+            "language": {
+                "type": "text",
+                "store": false,
+                "analyzer": "english_stop_analyzer",
+                "search_analyzer": "english_stop_analyzer"
+            },
+            "keywords": {
+                "type": "array",
+                "store": false,
+                "analyzer": "english_stop_analyzer",
+                "search_analyzer": "english_stop_analyzer"
+            },
+            "title": {
                 "type": "text",
                 "store": false,
                 "analyzer": "english_stop_analyzer",

@@ -12,7 +12,9 @@ class GoogleNewsItem(scrapy.Item):
     published = scrapy.Field()
     link = scrapy.Field()
     html = scrapy.Field()
-    locale = scrapy.Field()
+    region = scrapy.Field()
+    language = scrapy.Field()
+    keywords = scrapy.Field()
     article_id = scrapy.Field()
                     
     def __str__(self):
