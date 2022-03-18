@@ -13,8 +13,6 @@ class Elastic(object):
 
     elastic_index_name = settings.ELASTIC_INDEX_NAME
     elastic_index_config = settings.ELASTIC_INDEX_CONFIG
-    elastic_field = settings.ELASTIC_FIELD
-    article_column = settings.MONGO_COLUMN
 
     @staticmethod
     def initialize():
