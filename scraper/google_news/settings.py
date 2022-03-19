@@ -48,8 +48,8 @@ MONGODB_PASSWORD = os.environ.get("MONGO_PASSWORD") or "example"
 ES_HOST = os.environ.get("ES_HOST") or "localhost"
 ES_PORT = os.environ.get("ES_PORT") or "9200"
 
-ES_USERNAME = os.environ.get("ES_USER")
-ES_PASSWORD = os.environ.get("ES_PASSWORD")
+ES_USERNAME = os.environ.get("ES_USER") or "elastic"
+ES_PASSWORD = os.environ.get("ES_PASSWORD") or "root"
 
 ELASTIC_INDEX_NAME = os.environ.get("ELASTIC_INDEX_NAME") or "articles_index"
 ELASTIC_INDEX_CONFIG = os.environ.get("ELASTIC_INDEX_CONFIG") or "articles_index_config.json"
