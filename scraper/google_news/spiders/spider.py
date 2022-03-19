@@ -89,7 +89,7 @@ class Spider(scrapy.Spider):
         return region, language
 
 
-    def __init__(self, crimes_file="murder.txt", search_from="", search_to="", locale="",  **kwargs):
+    def __init__(self, crimes_file="murder.txt", search_from="", search_to="", locale="", days_step=1,  **kwargs):
         super().__init__(**kwargs)
         if search_from == "" or search_to == "" or locale == "":
             logging.error(self.__ERROR_MESSAGE)
@@ -99,6 +99,7 @@ class Spider(scrapy.Spider):
         self.search_from = search_from
         self.search_to = search_to
         self.locale = locale
+        self.days_step = days_step
     
 
     def start_requests(self):
@@ -108,7 +109,7 @@ class Spider(scrapy.Spider):
         for crime_keyword, crime_keyword_en in loaded_crimes_dict.items():
             print("processing crime: ", crime_keyword)
             gnews_parser = GnewsParser()
-            gnews_parser.setup_search(crime_keyword, self.search_from, self.search_to, locale=self.locale)
+            gnews_parser.setup_search(crime_keyword, self.search_from, self.search_to, locale=self.locale, days_step=self.days_step)
             
             while True:
                 res = gnews_parser.get_results()  # getting articles on daily basis
