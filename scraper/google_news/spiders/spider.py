@@ -6,6 +6,7 @@ import scrapy
 from gnewsparser import GnewsParser
 from google_news.items import GoogleNewsItem
 from scrapy import Selector
+import logging
 
 
 
@@ -91,7 +92,7 @@ class Spider(scrapy.Spider):
     def __init__(self, crimes_file="murder.txt", search_from="", search_to="", locale="",  **kwargs):
         super().__init__(**kwargs)
         if search_from == "" or search_to == "" or locale == "":
-            print(self.__ERROR_MESSAGE)
+            logging.error(self.__ERROR_MESSAGE)
             exit(1)
         self.crimes_file = CRIMES_FOLDER + crimes_file
         self.crimes_file_en = CRIMES_FOLDER + 'list_of_crimes_english.txt'

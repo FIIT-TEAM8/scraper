@@ -2,10 +2,11 @@ import os
 import sys
 import json
 from telnetlib import EL
-
+import logging
 from attr import field
 import google_news.settings as settings
 from elasticsearch import Elasticsearch
+from elasticsearch import RequestsHttpConnection
 
 
 class Elastic(object):
@@ -16,13 +17,24 @@ class Elastic(object):
 
     @staticmethod
     def initialize():
-        Elastic.es_connection = Elasticsearch(hosts=[
-            {
-                "host": settings.ES_HOST,
-                "port": int(settings.ES_PORT)
-            }
-        ])
+        protocol = "https"
+        host = settings.ES_HOST
+        port = settings.ES_PORT
+        username = settings.ES_USERNAME
+        password = settings.ES_PASSWORD
 
+        connection_string = "{protocol}://{username}:{password}@{host}:{port}/".format(
+            protocol=protocol,
+            username=username,
+            password=password,
+            host=host,
+            port=port
+        )
+        Elastic.es_connection = Elasticsearch(hosts=connection_string, verify_certs=False)
+        # This triggers if elastic connection is not successfull
+        if (not Elastic.es_connection.ping()):
+            logging.error("Elastic connection unsuccessfull. Exiting")
+            exit(1)
 
     @staticmethod
     def index_article(article_id, item):

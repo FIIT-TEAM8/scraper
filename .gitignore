@@ -11,3 +11,4 @@ eggs
 scraper/dbs
 scraper/build
 scraper/project.egg-info
+*.env

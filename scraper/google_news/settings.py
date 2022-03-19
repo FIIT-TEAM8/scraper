@@ -1,13 +1,8 @@
-# Scrapy settings for google_news project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     https://docs.scrapy.org/en/latest/topics/settings.html
-#     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import pathlib
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BOT_NAME = 'google_news'
 
@@ -53,6 +48,9 @@ MONGODB_PASSWORD = os.environ.get("MONGO_PASSWORD") or "example"
 ES_HOST = os.environ.get("ES_HOST") or "localhost"
 ES_PORT = os.environ.get("ES_PORT") or "9200"
 
+ES_USERNAME = os.environ.get("ES_USER")
+ES_PASSWORD = os.environ.get("ES_PASSWORD")
+
 ELASTIC_INDEX_NAME = os.environ.get("ELASTIC_INDEX_NAME") or "articles_index"
 ELASTIC_INDEX_CONFIG = os.environ.get("ELASTIC_INDEX_CONFIG") or "articles_index_config.json"
 
@@ -62,7 +60,7 @@ MONGODB_URI = "mongodb://{user}:{password}@{server_url}:{port}/".format(user=MON
                                                                         port=MONGODB_PORT)
 
 # db name
-MONGODB_DB = os.environ.get("MONGO_DB") or "ams_db"
+MONGODB_DB = os.environ.get("MONGO_DB") or "ams"
 
 # db collections
 MONGODB_ARTICLES = "articles"
