@@ -13,25 +13,16 @@ class MongoPipeline(object):
     def __init__(self):
         Database.initialize()
 
-
-    def process_locale(self, locale):
-        region = locale
-        language = locale
-
-        if '-' in locale:
-            region = locale.split('-')[1]
-            language = locale.split('-')[0]
-
-        return region, language
-
-
     def process_item(self, item, spider):
         title = item['title'][0]
         published = item['published'][0]
         link = item['link'][0]
         html = item['html']
-        region, language = self.process_locale(item['locale'])
-        field_list = ['title', 'published', 'link', 'region', 'language', 'html']
+        region = item['region'] if 'region' in item else ""
+        language = item['language']
+        keywords = item['keywords']
+
+        field_list = ['title', 'published', 'link', 'region', 'language', 'keywords', 'html']
         to_insert = {}
 
         # creates dictionary from item values

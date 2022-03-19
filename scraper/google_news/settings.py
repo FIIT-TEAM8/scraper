@@ -53,10 +53,8 @@ MONGODB_PASSWORD = os.environ.get("MONGO_PASSWORD") or "example"
 ES_HOST = os.environ.get("ES_HOST") or "localhost"
 ES_PORT = os.environ.get("ES_PORT") or "9200"
 
-MONGO_COLUMN = os.environ.get("MONGO_COLUMN") or "html"
 ELASTIC_INDEX_NAME = os.environ.get("ELASTIC_INDEX_NAME") or "articles_index"
 ELASTIC_INDEX_CONFIG = os.environ.get("ELASTIC_INDEX_CONFIG") or "articles_index_config.json"
-ELASTIC_FIELD = os.environ.get("ELASTIC_FIELD") or "text"
 
 MONGODB_URI = "mongodb://{user}:{password}@{server_url}:{port}/".format(user=MONGODB_USER, 
                                                                         password=MONGODB_PASSWORD, 

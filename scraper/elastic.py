@@ -2,7 +2,8 @@ import os
 import sys
 import json
 from telnetlib import EL
-import pymongo
+
+from attr import field
 import google_news.settings as settings
 from elasticsearch import Elasticsearch
 
@@ -12,8 +13,6 @@ class Elastic(object):
 
     elastic_index_name = settings.ELASTIC_INDEX_NAME
     elastic_index_config = settings.ELASTIC_INDEX_CONFIG
-    elastic_field = settings.ELASTIC_FIELD
-    article_column = settings.MONGO_COLUMN
 
     @staticmethod
     def initialize():
@@ -26,7 +25,7 @@ class Elastic(object):
 
 
     @staticmethod
-    def index_article(article_id, document):
+    def index_article(article_id, item):
         # make sure connection is set
         if Elastic.es_connection is None:
             print('Article with id {} wasn\'t indexed, because connection to Elasticsearch wasn\'t established.'.format(article_id))
@@ -48,14 +47,19 @@ class Elastic(object):
                 else:
                     print('Index successfully created.')
 
-        # article's html
-        article_column_value = document[Elastic.article_column]
+        # create dictionary from GoogleNewsItem, because GoogleNewsItem is not JSON serializable
+        # ommit article_id, because it is not in elastic index as a field
+        article_data = {field_name: field_value for field_name, field_value in item.items() if field_name != 'article_id'}
 
-        Elastic.es_connection.index(
+        response = Elastic.es_connection.index(
             index=Elastic.elastic_index_name,
             doc_type='_doc',
             id=article_id, # document id in Elasticsearch == article id in articles collection
-            document=json.dumps(
-                {Elastic.elastic_field: article_column_value}
-            )
+            document=json.dumps(article_data)
         )
+
+        # inform user about not indexed article
+        if 'result' not in response:
+            print('FAIL TO INDEX ARTICLE: {} AND RESPONSE DOESN\'T HAVE result FIELD'.format(article_id))
+        elif response['result'] != 'created' and response['result'] != 'updated':
+            print('FAIL TO INDEX ARTICLE: {}, RESPONSE RESULT: {}'.format(article_id, response['result']))

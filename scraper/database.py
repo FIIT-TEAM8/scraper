@@ -12,21 +12,24 @@ class Database(object):
         connection = pymongo.MongoClient(settings.MONGODB_URI)
         Database.DATABASE = connection[settings.MONGODB_DB]
         articles = Database.DATABASE[settings.MONGODB_ARTICLES]
-        crime_maps = Database.DATABASE[settings.MONGODB_CRIMEMAPS]
-        error_links = Database.DATABASE[settings.MONGODB_ERRORLINKS]
 
         articles.create_index('link', unique=True)
-        crime_maps.create_index('link', unique=True)
-        error_links.create_index('link', unique=True)
-
 
     @staticmethod
     def insert(collection, document):
+        if Database.DATABASE is None:
+            print('Unable to add document to {} collection, because ther is no connection to MongoDB.'.format(collection))
+            return None
+
         article_id = Database.DATABASE[collection].insert(document)
 
         return article_id
 
     @staticmethod
     def update(collection, link, to_update):
+        if Database.DATABASE is None:
+            print('Unable to update collection {}, because there is not connection to MongoDB'.format(collection))
+            return None
+
         Database.DATABASE[collection].update_one({'link': link}, 
                                                  {'$addToSet': {'keywords': to_update}}, upsert=True)
