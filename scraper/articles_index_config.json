@@ -61,7 +61,7 @@
                 "search_analyzer": "english_stop_analyzer"
             },
             "keywords": {
-                "type": "array",
+                "type": "text",
                 "store": false,
                 "analyzer": "english_stop_analyzer",
                 "search_analyzer": "english_stop_analyzer"
