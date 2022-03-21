@@ -37,7 +37,7 @@
                 "search_analyzer": "english_stop_analyzer"
             },
             "published": {
-                "type": "text",
+                "type": "date",
                 "store": false,
                 "analyzer": "english_stop_analyzer",
                 "search_analyzer": "english_stop_analyzer"
