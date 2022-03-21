@@ -10,19 +10,11 @@
                     "type":"custom",
                     "tokenizer":"standard",
                     "filter":[
-                        "lowercase",
-                        "english_stop_words"
+                        "lowercase"
                     ]
                 }
         },
-        "filter":{
-            "english_stop_words": {
-                "type": "stop",
-                "stopwords":"_english_",
-                "ignore_case": true,
-                "remove_trailing": true
-              }
-            }
+        "filter":{}
         }
     },
     "mappings": {
