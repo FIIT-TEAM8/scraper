@@ -9,7 +9,19 @@ class GnewsParser:
     __LOCALE = {
         "sk-sk": "&hl=sk&gl=SK&ceid=SK:sk",
         "en-us": "&hl=en-US&gl=US&ceid=US:en",
-        "en-gb": "&hl=en-GB&gl=GB&ceid=GB:en"
+        "en-gb": "&hl=en-GB&gl=GB&ceid=GB:en",
+        "bg-bg": "&hl=bg&gl=BG&ceid=BG:bg", # bulgarian
+        "cs-cz": "hl=cs&gl=CZ&ceid=CZ:cs", # czech
+        "fr-fr": "&hl=fr&gl=FR&ceid=FR:fr",
+        "fr-be": "&hl=fr&gl=BE&ceid=BE:fr", # belgium
+        "de-de": "&hl=de&gl=DE&ceid=DE:de",
+        "de-at": "hl=de&gl=AT&ceid=AT:de", # austria
+        "de-ch": "&hl=de&gl=CH&ceid=CH:de", # switzerland
+        "el-gr": "&hl=el&gl=GR&ceid=GR:el", # greek
+        "nl-nl": "&hl=nl&gl=NL&ceid=NL:nl", # dutch
+        "nl-be": "&hl=nl&gl=BE&ceid=BE:nl", # belgium
+        "hu-hu": "&hl=hu&gl=HU&ceid=HU:hu"
+        
     }
 
     def __init__(self):
