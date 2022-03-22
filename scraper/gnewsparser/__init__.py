@@ -11,17 +11,24 @@ class GnewsParser:
         "en-us": "&hl=en-US&gl=US&ceid=US:en",
         "en-gb": "&hl=en-GB&gl=GB&ceid=GB:en",
         "bg-bg": "&hl=bg&gl=BG&ceid=BG:bg", # bulgarian
-        "cs-cz": "hl=cs&gl=CZ&ceid=CZ:cs", # czech
+        "cs-cz": "&hl=cs&gl=CZ&ceid=CZ:cs", # czech
         "fr-fr": "&hl=fr&gl=FR&ceid=FR:fr",
         "fr-be": "&hl=fr&gl=BE&ceid=BE:fr", # belgium
         "de-de": "&hl=de&gl=DE&ceid=DE:de",
-        "de-at": "hl=de&gl=AT&ceid=AT:de", # austria
+        "de-at": "&hl=de&gl=AT&ceid=AT:de", # austria
         "de-ch": "&hl=de&gl=CH&ceid=CH:de", # switzerland
         "el-gr": "&hl=el&gl=GR&ceid=GR:el", # greek
         "nl-nl": "&hl=nl&gl=NL&ceid=NL:nl", # dutch
         "nl-be": "&hl=nl&gl=BE&ceid=BE:nl", # belgium
-        "hu-hu": "&hl=hu&gl=HU&ceid=HU:hu"
-        
+        "hu-hu": "&hl=hu&gl=HU&ceid=HU:hu",
+        "it-it": "&hl=it&gl=IT&ceid=IT:it",
+        "lv-lv": "&hl=lv&gl=LV&ceid=LV:lv", # latvia
+        "en-lv": "&hl=en-LV&gl=LV&ceid=LV:en", # latvia-eng
+        "lt-lt": "&hl=lt&gl=LT&ceid=LT:lt", # lithuania
+        "pl-pl": "&hl=pl&gl=PL&ceid=PL:pl", # polish
+        "pt-pt": "&hl=pt-PT&gl=PT&ceid=PT:pt-150", # portugal
+        "ro-ro": "&hl=ro&gl=RO&ceid=RO:ro", # romanian
+        "sl-sl": "&hl=sl&gl=SI&ceid=SI:sl" # slovenian
     }
 
     def __init__(self):
