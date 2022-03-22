@@ -7,7 +7,7 @@ class GnewsParser:
     __BASE_URL = "https://news.google.com/rss/search?q=<QUERY><DATERANGE><LOCALE>"
     __DATE_RANGE = "+after:<AFTER>+before:<BEFORE>"
     __LOCALE = {
-        "sk": "&hl=sk&gl=SK&ceid=SK:sk",
+        "sk-sk": "&hl=sk&gl=SK&ceid=SK:sk",
         "en-us": "&hl=en-US&gl=US&ceid=US:en",
         "en-gb": "&hl=en-GB&gl=GB&ceid=GB:en"
     }
