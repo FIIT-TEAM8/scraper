@@ -30,7 +30,7 @@ DOWNLOAD_TIMEOUT = 20
 #     }
 # }
 
-USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
 
 # what means integer in ITEM_PIPELINES: https://docs.scrapy.org/en/latest/topics/item-pipeline.html#activating-an-item-pipeline-component
 ITEM_PIPELINES = {
