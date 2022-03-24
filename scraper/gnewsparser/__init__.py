@@ -28,7 +28,8 @@ class GnewsParser:
         "pl-pl": "&hl=pl&gl=PL&ceid=PL:pl", # polish
         "pt-pt": "&hl=pt-PT&gl=PT&ceid=PT:pt-150", # portugal
         "ro-ro": "&hl=ro&gl=RO&ceid=RO:ro", # romanian
-        "sl-sl": "&hl=sl&gl=SI&ceid=SI:sl" # slovenian
+        "sl-sl": "&hl=sl&gl=SI&ceid=SI:sl",# slovenian
+        "uk-ua": "hl=uk&gl=UA&ceid=UA:uk" # ukraine
     }
 
     def __init__(self):
