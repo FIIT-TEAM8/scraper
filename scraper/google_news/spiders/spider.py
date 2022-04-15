@@ -100,6 +100,14 @@ class Spider(scrapy.Spider):
         self.search_to = search_to
         self.locale = locale
         self.days_step = days_step
+        message = "STARTING WITH ARGS: locale: {slocale}, crimes_file: {cfile}, days step: {sstep} ,search_from: {sfrom}, search_to: {sto}".format(
+            slocale=locale,
+            cfile=crimes_file,
+            sstep=days_step,
+            sfrom=search_from,
+            sto=search_to
+        )
+        logging.critical(message)
     
 
     def start_requests(self):
