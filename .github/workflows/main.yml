@@ -20,11 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      #- name: Install dependencies
-      #  run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
         
-      #- name: Unit tests
-      #  run: python -m unittest discover
+      - name: Unit tests
+        run: python -m unittest discover
 
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: Build & push Docker image
