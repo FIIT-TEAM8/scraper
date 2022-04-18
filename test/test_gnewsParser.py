@@ -9,7 +9,7 @@ from scraper.gnewsparser import GnewsParser
 class TestGnewsParser(unittest.TestCase):
     def test_setup_phase(self):
         gnews_parser = GnewsParser()
-        gnews_parser.setup_search("murder", "2020-01-01", "2020-01-03", locale="sk")
+        gnews_parser.setup_search("murder", "2020-01-01", "2020-01-03", locale="sk-sk")
         gnews_parser.get_results()
         state = gnews_parser.save_state()
         self.assertEqual(state["last_url"], "https://news.google.com/rss/search?q=murder+after:2020-01-01+before:2020-01-02&hl=sk&gl=SK&ceid=SK:sk")
@@ -18,5 +18,5 @@ class TestGnewsParser(unittest.TestCase):
 
     def test_connection(self):
         gnews_parser = GnewsParser()
-        gnews_parser.setup_search("murder", "2020-01-01", "2020-01-03", locale="sk")
+        gnews_parser.setup_search("murder", "2020-01-01", "2020-01-03", locale="sk-sk")
         self.assertIsNotNone(gnews_parser.get_results())
